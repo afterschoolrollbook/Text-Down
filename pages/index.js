@@ -298,6 +298,13 @@ export default function Home({ initialAdsOn }) {
 
         <footer style={{ textAlign: 'center', padding: 24, fontSize: 12, color: '#aaa', borderTop: '1px solid #eee', background: '#fff' }}>
           <p>모든 처리는 브라우저에서 이루어지며 서버로 데이터가 전송되지 않습니다.</p>
+          <p style={{ marginTop: 12, display: 'flex', justifyContent: 'center', gap: 16 }}>
+            <a href="/blog" style={{ color: '#888', textDecoration: 'none' }}>블로그</a>
+            <a href="/faq" style={{ color: '#888', textDecoration: 'none' }}>FAQ</a>
+            <a href="/privacy" style={{ color: '#888', textDecoration: 'none' }}>개인정보처리방침</a>
+            <a href="/terms" style={{ color: '#888', textDecoration: 'none' }}>이용약관</a>
+            <a href="/admin" style={{ color: '#ddd', textDecoration: 'none' }}>admin</a>
+          </p>
         </footer>
       </div>
     </>
