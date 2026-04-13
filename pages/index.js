@@ -212,7 +212,7 @@ export default function Home({ initialAdsOn }) {
           .sidebar-ad-wrap { width: 160px; }
           .main-content { flex: 1; min-width: 0; max-width: 800px; }
           @media (min-width: 1100px) { .sidebar { display: block; } }
-        \`}</style>
+        `}</style>
       </Head>
 
       <div style={S.page}>
