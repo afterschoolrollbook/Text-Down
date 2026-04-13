@@ -1,4 +1,6 @@
 // pages/api/settings/login.js
+// 로그인 검증 → 성공 시 ADMIN_SECRET_TOKEN 반환
+
 import { createClient } from '@supabase/supabase-js'
 import { createHash } from 'crypto'
 
@@ -33,7 +35,7 @@ export default async function handler(req, res) {
 
     res.status(200).json({ token: process.env.ADMIN_SECRET_TOKEN })
   } catch (err) {
-    console.error('login error:', err)
+    console.error('Supabase login error:', err)
     res.status(500).json({ error: '서버 오류' })
   }
 }

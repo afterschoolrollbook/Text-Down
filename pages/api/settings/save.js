@@ -1,4 +1,6 @@
 // pages/api/settings/save.js
+// Supabase에 설정값 저장 (upsert)
+
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -14,11 +16,15 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: '인증 실패' })
   }
 
-  const { adsOn } = req.body
+  const { cooldown, adsOn, soundDownBanner, affiliateLinks, affiliateEnabled } = req.body
 
   try {
     const rows = []
-    if (adsOn !== undefined) rows.push({ key: 'site:ads_on', value: adsOn })
+    if (cooldown !== undefined)           rows.push({ key: 'site:cooldown',            value: cooldown })
+    if (adsOn !== undefined)              rows.push({ key: 'site:ads_on',               value: adsOn })
+    if (soundDownBanner !== undefined)    rows.push({ key: 'site:sound_down_banner',    value: soundDownBanner })
+    if (affiliateLinks !== undefined)     rows.push({ key: 'affiliate:links',           value: affiliateLinks })
+    if (affiliateEnabled !== undefined)   rows.push({ key: 'affiliate:enabled',         value: affiliateEnabled })
 
     if (rows.length === 0) return res.status(400).json({ error: '저장할 데이터 없음' })
 

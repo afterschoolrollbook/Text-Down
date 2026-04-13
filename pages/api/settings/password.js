@@ -1,4 +1,6 @@
 // pages/api/settings/password.js
+// 관리자 비밀번호 변경 — Supabase에 SHA-256 해시로 저장
+
 import { createClient } from '@supabase/supabase-js'
 import { createHash } from 'crypto'
 
@@ -14,25 +16,34 @@ function sha256(str) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
-  const token = req.headers['x-admin-token']
-  if (!process.env.ADMIN_SECRET_TOKEN || token !== process.env.ADMIN_SECRET_TOKEN) {
-    return res.status(401).json({ error: '인증 실패' })
-  }
-
-  const { newPassword } = req.body
-  if (!newPassword || newPassword.length < 6) {
-    return res.status(400).json({ error: '비밀번호는 6자 이상이어야 합니다' })
-  }
+  const { currentPw, newPw } = req.body
+  if (!currentPw || !newPw) return res.status(400).json({ error: '입력값 부족' })
+  if (newPw.length < 6) return res.status(400).json({ error: '새 비밀번호는 6자 이상' })
 
   try {
+    const { data } = await supabase
+      .from('settings')
+      .select('value')
+      .eq('key', 'admin:password_hash')
+      .single()
+
+    const defaultHash = sha256(process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'admin1234')
+    const validHash = data?.value ?? defaultHash
+
+    if (sha256(currentPw) !== validHash) {
+      return res.status(401).json({ error: '현재 비밀번호가 틀렸습니다' })
+    }
+
+    // 새 비밀번호 해시 upsert
     const { error } = await supabase
       .from('settings')
-      .upsert([{ key: 'admin:password_hash', value: sha256(newPassword) }], { onConflict: 'key' })
+      .upsert({ key: 'admin:password_hash', value: sha256(newPw) }, { onConflict: 'key' })
 
     if (error) throw error
+
     res.status(200).json({ ok: true })
   } catch (err) {
-    console.error('password change error:', err)
-    res.status(500).json({ error: '비밀번호 변경 실패' })
+    console.error('Supabase password error:', err)
+    res.status(500).json({ error: 'DB 저장 실패' })
   }
 }
