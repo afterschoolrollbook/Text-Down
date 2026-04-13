@@ -144,6 +144,7 @@ export default function Home({ initialAdsOn }) {
         <title>Text-Down · 무료 텍스트 도구</title>
         <meta name="description" content="글자수 세기, 공백 제거, 텍스트 비교 등 무료 온라인 텍스트 도구" />
         <meta name="google-adsense-account" content="ca-pub-2161169464776476" />
+        <meta name="google-site-verification" content="YJ1KqOmojkGa_BZl9GGULxA04glRtYVAT-5eoRjGsrs" />
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT && (
           <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT}`} crossOrigin="anonymous" />
