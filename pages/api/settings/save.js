@@ -11,10 +11,12 @@ export default async function handler(req, res) {
   if (!process.env.ADMIN_SECRET_TOKEN || token !== process.env.ADMIN_SECRET_TOKEN) {
     return res.status(401).json({ error: '인증 실패' })
   }
-  const { adsOn } = req.body
+  const { adsOn, soundDownBanner, thumbDownBanner } = req.body
   try {
     const rows = []
-    if (adsOn !== undefined) rows.push({ key: 'site:ads_on', value: adsOn })
+    if (adsOn !== undefined)           rows.push({ key: 'site:ads_on',            value: adsOn })
+    if (soundDownBanner !== undefined) rows.push({ key: 'site:sound_down_banner', value: soundDownBanner })
+    if (thumbDownBanner !== undefined) rows.push({ key: 'site:thumb_down_banner', value: thumbDownBanner })
     if (rows.length === 0) return res.status(400).json({ error: '저장할 데이터 없음' })
     const { error } = await supabase.from('settings').upsert(rows, { onConflict: 'key' })
     if (error) throw error

@@ -7,6 +7,8 @@ const supabase = createClient(
 
 const DEFAULTS = {
   adsOn: true,
+  soundDownBanner: false,
+  thumbDownBanner: false,
 }
 
 export default async function handler(req, res) {
@@ -17,7 +19,9 @@ export default async function handler(req, res) {
     const map = {}
     for (const row of data || []) { map[row.key] = row.value }
     res.status(200).json({
-      adsOn: map['site:ads_on'] ?? DEFAULTS.adsOn,
+      adsOn:           map['site:ads_on']            ?? DEFAULTS.adsOn,
+      soundDownBanner: map['site:sound_down_banner'] ?? DEFAULTS.soundDownBanner,
+      thumbDownBanner: map['site:thumb_down_banner'] ?? DEFAULTS.thumbDownBanner,
     })
   } catch (err) {
     console.error('Supabase get error:', err)
