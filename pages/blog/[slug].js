@@ -44,7 +44,7 @@ export default function BlogPost() {
         <div className="wrap header-inner">
           <Link href="/" className="logo">
             <div className="logo-icon">▶</div>
-            <span className="logo-text">Thumb<span>-Down</span></span>
+            <span className="logo-text">Text<span>-Down</span></span>
           </Link>
         </div>
       </header>
@@ -58,7 +58,7 @@ export default function BlogPost() {
         <div className="wrap header-inner">
           <Link href="/" className="logo">
             <div className="logo-icon">▶</div>
-            <span className="logo-text">Thumb<span>-Down</span></span>
+            <span className="logo-text">Text<span>-Down</span></span>
           </Link>
         </div>
       </header>
@@ -97,7 +97,7 @@ export default function BlogPost() {
         <div className="wrap header-inner">
           <Link href="/" className="logo">
             <div className="logo-icon">▶</div>
-            <span className="logo-text">Thumb<span>-Down</span></span>
+            <span className="logo-text">Text<span>-Down</span></span>
           </Link>
           <button className="lang-btn" onClick={toggleLang}>
             {lang === 'ko' ? '🇺🇸 English' : '🇰🇷 한국어'}
