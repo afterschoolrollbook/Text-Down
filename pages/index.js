@@ -73,9 +73,13 @@ function SidebarAd({ adsOn, slot }) {
   )
 }
 
-export default function Home({ initialAdsOn }) {
+export default function Home({ initialAdsOn, initialSoundDownBanner, initialThumbDownBanner }) {
   const [tool, setTool] = useState('counter')
   const [adsOn, setAdsOn] = useState(initialAdsOn)
+  const [soundDownBanner, setSoundDownBanner] = useState(initialSoundDownBanner)
+  const [thumbDownBanner, setThumbDownBanner] = useState(initialThumbDownBanner)
+  const [lang, setLang] = useState('ko')
+
 
   // 카운터
   const [counterText, setCounterText] = useState('')
@@ -218,7 +222,21 @@ export default function Home({ initialAdsOn }) {
       <div style={S.page}>
         <header style={S.header}>
           <span style={{ fontSize: 18, fontWeight: 700 }}>Text-Down</span>
-          <span style={{ fontSize: 12, color: '#888', background: '#f0f0ea', padding: '2px 8px', borderRadius: 20 }}>무료</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 12, color: '#888', background: '#f0f0ea', padding: '2px 8px', borderRadius: 20 }}>무료</span>
+            {soundDownBanner && (
+              <a href="https://www.sound-down.com" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#f0f0ff', border: '1px solid #d0d0ff', borderRadius: 8, padding: '5px 10px', color: '#5555cc', fontSize: 12, fontWeight: 600, textDecoration: 'none' }}>
+                🔊 Sound-Down
+              </a>
+            )}
+            {thumbDownBanner && (
+              <a href="https://www.thumb-down.com" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#fff0f0', border: '1px solid #ffd0d0', borderRadius: 8, padding: '5px 10px', color: '#cc3333', fontSize: 12, fontWeight: 600, textDecoration: 'none' }}>
+                🖼️ Thumb-Down
+              </a>
+            )}
+          </div>
         </header>
 
         {adsOn && (
@@ -377,6 +395,40 @@ export default function Home({ initialAdsOn }) {
 
         <AdSlot adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_FOOTER || "4444444444"} style={{ padding: '0 16px' }} />
 
+        {soundDownBanner && (
+          <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 16px 16px' }}>
+            <a href="https://www.sound-down.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+              <div style={{ background: 'linear-gradient(135deg, #f0f0ff 0%, #e8e8ff 100%)', border: '1px solid #d0d0ff', borderRadius: 12, padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ fontSize: 28 }}>🔊</span>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: '#4444aa', marginBottom: 2 }}>Sound-Down</div>
+                    <div style={{ color: '#7777bb', fontSize: 12 }}>{lang === 'ko' ? '무료 효과음 다운로드 — CC0 사운드' : 'Free Sound Effects — CC0 Sounds'}</div>
+                  </div>
+                </div>
+                <div style={{ background: '#5555cc', color: '#fff', borderRadius: 6, padding: '6px 14px', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{lang === 'ko' ? '바로가기 →' : 'Visit →'}</div>
+              </div>
+            </a>
+          </div>
+        )}
+
+        {thumbDownBanner && (
+          <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 16px 16px' }}>
+            <a href="https://www.thumb-down.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+              <div style={{ background: 'linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%)', border: '1px solid #ffd0d0', borderRadius: 12, padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ fontSize: 28 }}>🖼️</span>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: '#aa3333', marginBottom: 2 }}>Thumb-Down</div>
+                    <div style={{ color: '#bb6666', fontSize: 12 }}>{lang === 'ko' ? '유튜브 썸네일 무료 다운로드' : 'Free YouTube Thumbnail Downloader'}</div>
+                  </div>
+                </div>
+                <div style={{ background: '#cc3333', color: '#fff', borderRadius: 6, padding: '6px 14px', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{lang === 'ko' ? '바로가기 →' : 'Visit →'}</div>
+              </div>
+            </a>
+          </div>
+        )}
+
         <footer style={{ textAlign: 'center', padding: 24, fontSize: 12, color: '#aaa', borderTop: '1px solid #eee', background: '#fff' }}>
           <p>모든 처리는 브라우저에서 이루어지며 서버로 데이터가 전송되지 않습니다.</p>
           <p style={{ marginTop: 12, display: 'flex', justifyContent: 'center', gap: 16 }}>
@@ -396,9 +448,15 @@ export async function getServerSideProps() {
   try {
     const { createClient } = await import('@supabase/supabase-js')
     const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
-    const { data } = await supabase.from('settings').select('key, value').eq('key', 'site:ads_on').single()
-    return { props: { initialAdsOn: data?.value ?? true } }
+    const { data } = await supabase.from('settings').select('key, value')
+    const map = {}
+    for (const row of data || []) { map[row.key] = row.value }
+    return { props: {
+      initialAdsOn: map['site:ads_on'] ?? true,
+      initialSoundDownBanner: map['site:sound_down_banner'] ?? false,
+      initialThumbDownBanner: map['site:thumb_down_banner'] ?? false,
+    }}
   } catch {
-    return { props: { initialAdsOn: true } }
+    return { props: { initialAdsOn: true, initialSoundDownBanner: false, initialThumbDownBanner: false } }
   }
 }
