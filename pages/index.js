@@ -50,6 +50,29 @@ function AdSlot({ adsOn, slot, style: extraStyle = {} }) {
   )
 }
 
+function SidebarAd({ adsOn, slot }) {
+  const ref = useRef(null)
+  const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
+  useEffect(() => {
+    if (!adsOn || !client || !ref.current) return
+    try { ;(window.adsbygoogle = window.adsbygoogle || []).push({}) } catch {}
+  }, [adsOn, client])
+  if (!adsOn) return null
+  if (!client) return (
+    <div className="sidebar-ad-placeholder">
+      <span style={{ fontSize: 18 }}>📢</span>
+      <span style={{ marginTop: 6 }}>광고</span>
+      <span style={{ fontSize: 10, marginTop: 4 }}>160×600</span>
+    </div>
+  )
+  return (
+    <div className="sidebar-ad-wrap">
+      <p style={{ textAlign: 'center', fontSize: 11, color: '#bbb', letterSpacing: '1px', marginBottom: 4 }}>광고</p>
+      <ins ref={ref} className="adsbygoogle" style={{ display: 'block', width: '160px', height: '600px' }} data-ad-client={client} data-ad-slot={slot} data-ad-format="vertical" data-full-width-responsive="false" />
+    </div>
+  )
+}
+
 export default function Home({ initialAdsOn }) {
   const [tool, setTool] = useState('counter')
   const [adsOn, setAdsOn] = useState(initialAdsOn)
@@ -159,6 +182,37 @@ export default function Home({ initialAdsOn }) {
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT && (
           <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT}`} crossOrigin="anonymous" />
         )}
+        <style>{`
+          .page-layout {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            align-items: flex-start;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 12px;
+          }
+          .sidebar {
+            display: none;
+            flex-shrink: 0;
+            width: 180px;
+            padding-top: 24px;
+            position: sticky;
+            top: 24px;
+          }
+          .sidebar-ad-placeholder {
+            width: 160px; height: 600px;
+            background: #f0f0ea;
+            border: 1px dashed #e0e0da;
+            border-radius: 8px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            color: #bbb; font-size: 12px;
+          }
+          .sidebar-ad-wrap { width: 160px; }
+          .main-content { flex: 1; min-width: 0; max-width: 800px; }
+          @media (min-width: 1100px) { .sidebar { display: block; } }
+        \`}</style>
       </Head>
 
       <div style={S.page}>
@@ -167,8 +221,17 @@ export default function Home({ initialAdsOn }) {
           <span style={{ fontSize: 12, color: '#888', background: '#f0f0ea', padding: '2px 8px', borderRadius: 20 }}>무료</span>
         </header>
 
-        <AdSlot adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_TOP || "1111111111"} />
+        {adsOn && (
+          <div style={{ maxWidth: 1280, margin: '16px auto 0', padding: '0 12px' }}>
+            <AdSlot adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_TOP || "1111111111"} />
+          </div>
+        )}
 
+        <div className="page-layout">
+          <aside className="sidebar">
+            <SidebarAd adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_LEFT || "5555555555"} />
+          </aside>
+          <main className="main-content">
         <div style={S.container}>
           <div style={S.tabs}>
             {TOOLS.map(t => (
@@ -305,6 +368,13 @@ export default function Home({ initialAdsOn }) {
             </div>
           )}
 
+        </div>
+
+        </div>
+          </main>
+          <aside className="sidebar">
+            <SidebarAd adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_RIGHT || "6666666666"} />
+          </aside>
         </div>
 
         <AdSlot adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_FOOTER || "4444444444"} style={{ padding: '0 16px' }} />
