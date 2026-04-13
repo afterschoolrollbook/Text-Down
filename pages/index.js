@@ -395,37 +395,36 @@ export default function Home({ initialAdsOn, initialSoundDownBanner, initialThum
 
         <AdSlot adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_FOOTER || "4444444444"} style={{ padding: '0 16px' }} />
 
-        {soundDownBanner && (
-          <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 16px 16px' }}>
-            <a href="https://www.sound-down.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-              <div style={{ background: 'linear-gradient(135deg, #f0f0ff 0%, #e8e8ff 100%)', border: '1px solid #d0d0ff', borderRadius: 12, padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ fontSize: 28 }}>🔊</span>
-                  <div>
-                    <div style={{ fontWeight: 700, fontSize: 14, color: '#4444aa', marginBottom: 2 }}>Sound-Down</div>
-                    <div style={{ color: '#7777bb', fontSize: 12 }}>{lang === 'ko' ? '무료 효과음 다운로드 — CC0 사운드' : 'Free Sound Effects — CC0 Sounds'}</div>
+        {(soundDownBanner || thumbDownBanner) && (
+          <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 16px 16px', display: 'grid', gridTemplateColumns: soundDownBanner && thumbDownBanner ? '1fr 1fr' : '1fr', gap: 12 }}>
+            {soundDownBanner && (
+              <a href="https://www.sound-down.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                <div style={{ background: '#f0f0ff', border: '1px solid #d0d0ff', borderRadius: 12, padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, height: '100%' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <span style={{ fontSize: 24 }}>🔊</span>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: 13, color: '#4444aa', marginBottom: 2 }}>Sound-Down</div>
+                      <div style={{ color: '#7777bb', fontSize: 11 }}>{lang === 'ko' ? '무료 효과음 — CC0 사운드' : 'Free Sound Effects'}</div>
+                    </div>
                   </div>
+                  <div style={{ background: '#5555cc', color: '#fff', borderRadius: 6, padding: '5px 12px', fontSize: 11, fontWeight: 700, flexShrink: 0 }}>→</div>
                 </div>
-                <div style={{ background: '#5555cc', color: '#fff', borderRadius: 6, padding: '6px 14px', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{lang === 'ko' ? '바로가기 →' : 'Visit →'}</div>
-              </div>
-            </a>
-          </div>
-        )}
-
-        {thumbDownBanner && (
-          <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 16px 16px' }}>
-            <a href="https://www.thumb-down.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-              <div style={{ background: 'linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%)', border: '1px solid #ffd0d0', borderRadius: 12, padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ fontSize: 28 }}>🖼️</span>
-                  <div>
-                    <div style={{ fontWeight: 700, fontSize: 14, color: '#aa3333', marginBottom: 2 }}>Thumb-Down</div>
-                    <div style={{ color: '#bb6666', fontSize: 12 }}>{lang === 'ko' ? '유튜브 썸네일 무료 다운로드' : 'Free YouTube Thumbnail Downloader'}</div>
+              </a>
+            )}
+            {thumbDownBanner && (
+              <a href="https://www.thumb-down.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                <div style={{ background: '#fff5f5', border: '1px solid #ffd0d0', borderRadius: 12, padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, height: '100%' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <span style={{ fontSize: 24 }}>🖼️</span>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: 13, color: '#aa3333', marginBottom: 2 }}>Thumb-Down</div>
+                      <div style={{ color: '#bb6666', fontSize: 11 }}>{lang === 'ko' ? '유튜브 썸네일 다운로드' : 'YouTube Thumbnail Downloader'}</div>
+                    </div>
                   </div>
+                  <div style={{ background: '#cc3333', color: '#fff', borderRadius: 6, padding: '5px 12px', fontSize: 11, fontWeight: 700, flexShrink: 0 }}>→</div>
                 </div>
-                <div style={{ background: '#cc3333', color: '#fff', borderRadius: 6, padding: '6px 14px', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{lang === 'ko' ? '바로가기 →' : 'Visit →'}</div>
-              </div>
-            </a>
+              </a>
+            )}
           </div>
         )}
 
