@@ -369,8 +369,6 @@ export default function Home({ initialAdsOn }) {
           )}
 
         </div>
-
-        </div>
           </main>
           <aside className="sidebar">
             <SidebarAd adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_RIGHT || "6666666666"} />
