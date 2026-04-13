@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const META = {
   ko: {
-    title: '블로그 | Text-Down — 유튜브 썸네일 팁',
+    title: '블로그 | Text-Down — 텍스트 도구 팁',
     desc: '글자수 세기, 텍스트 정리, 변환 등 텍스트 도구 관련 팁과 가이드를 제공합니다.',
     heading: '블로그',
     sub: '텍스트 도구 팁 & 가이드',
@@ -14,7 +14,7 @@ const META = {
     footer: '© 2024 Text-Down. 무료 온라인 텍스트 도구.',
   },
   en: {
-    title: 'Blog | Text-Down — YouTube Thumbnail Tips',
+    title: 'Blog | Text-Down — Text Tool Tips',
     desc: 'Tips and guides for text tools, character counting, and text processing.',
     heading: 'Blog',
     sub: 'Text Tool Tips & Guides',
