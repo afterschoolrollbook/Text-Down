@@ -5,23 +5,23 @@ import Link from 'next/link'
 const META = {
   ko: {
     title: '블로그 | Text-Down — 유튜브 썸네일 팁',
-    desc: '유튜브 썸네일 저장 방법, 크기 가이드, 크리에이터 팁 등 유용한 정보를 제공합니다.',
+    desc: '글자수 세기, 텍스트 정리, 변환 등 텍스트 도구 관련 팁과 가이드를 제공합니다.',
     heading: '블로그',
-    sub: '유튜브 썸네일 & 크리에이터 팁',
+    sub: '텍스트 도구 팁 & 가이드',
     empty: '아직 글이 없어요.',
     readMore: '읽기 →',
     langBtn: '🇺🇸 English',
-    footer: '© 2024 Text-Down. 유튜브 썸네일 무료 다운로더.',
+    footer: '© 2024 Text-Down. 무료 온라인 텍스트 도구.',
   },
   en: {
     title: 'Blog | Text-Down — YouTube Thumbnail Tips',
-    desc: 'Tips on saving YouTube thumbnails, size guides, and creator resources.',
+    desc: 'Tips and guides for text tools, character counting, and text processing.',
     heading: 'Blog',
-    sub: 'YouTube Thumbnail & Creator Tips',
+    sub: 'Text Tool Tips & Guides',
     empty: 'No posts yet.',
     readMore: 'Read more →',
     langBtn: '🇰🇷 한국어',
-    footer: '© 2024 Text-Down. Free YouTube Thumbnail Downloader.',
+    footer: '© 2024 Text-Down. Free Online Text Tools.',
   },
 }
 
@@ -69,7 +69,7 @@ export default function BlogIndex() {
         <div className="wrap header-inner">
           <Link href="/" className="logo">
             <div className="logo-icon">▶</div>
-            <span className="logo-text">Thumb<span>-Down</span></span>
+            <span className="logo-text">Text<span>-Down</span></span>
           </Link>
           <button className="lang-btn" onClick={toggleLang}>{t.langBtn}</button>
         </div>
