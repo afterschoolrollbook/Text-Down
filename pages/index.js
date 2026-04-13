@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 
 const TOOLS = [
@@ -29,13 +29,23 @@ const S = {
   toast: { fontSize: 12, color: '#22c55e' },
 }
 
-function AdBlock({ adsOn, slot, style }) {
+function AdSlot({ adsOn, slot, style: extraStyle = {} }) {
+  const ref = useRef(null)
+  const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
+  useEffect(() => {
+    if (!adsOn || !client || !ref.current) return
+    try { ;(window.adsbygoogle = window.adsbygoogle || []).push({}) } catch {}
+  }, [adsOn, client])
   if (!adsOn) return null
+  if (!client) return (
+    <div style={{ background: '#fafaf8', border: '1px dashed #e0e0da', borderRadius: 8, padding: '32px 20px', textAlign: 'center', color: '#bbb', fontSize: 13, margin: '12px 0', ...extraStyle }}>
+      광고 영역
+    </div>
+  )
   return (
-    <div style={{ ...S.adBox, ...style }}>
-      {/* 애드센스 코드를 여기에 삽입 */}
-      {/* <ins className="adsbygoogle" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot={slot} ... /> */}
-      광고 영역 (AdSense 코드 삽입)
+    <div style={{ margin: '12px 0', ...extraStyle }}>
+      <p style={{ textAlign: 'center', fontSize: 11, color: '#bbb', letterSpacing: '1px', marginBottom: 4 }}>광고</p>
+      <ins ref={ref} className="adsbygoogle" style={{ display: 'block' }} data-ad-client={client} data-ad-slot={slot} data-ad-format="auto" data-full-width-responsive="true" />
     </div>
   )
 }
@@ -157,7 +167,7 @@ export default function Home({ initialAdsOn }) {
           <span style={{ fontSize: 12, color: '#888', background: '#f0f0ea', padding: '2px 8px', borderRadius: 20 }}>무료</span>
         </header>
 
-        <AdBlock adsOn={adsOn} slot="top" />
+        <AdSlot adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_TOP || "1111111111"} />
 
         <div style={S.container}>
           <div style={S.tabs}>
@@ -225,7 +235,7 @@ export default function Home({ initialAdsOn }) {
             </div>
           )}
 
-          <AdBlock adsOn={adsOn} slot="mid" style={{ margin: '16px 0' }} />
+          <AdSlot adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_MIDDLE || "3333333333"} />
 
           {/* 텍스트 제거 */}
           {tool === 'remove' && (
@@ -296,6 +306,8 @@ export default function Home({ initialAdsOn }) {
           )}
 
         </div>
+
+        <AdSlot adsOn={adsOn} slot={process.env.NEXT_PUBLIC_AD_SLOT_FOOTER || "4444444444"} style={{ padding: '0 16px' }} />
 
         <footer style={{ textAlign: 'center', padding: 24, fontSize: 12, color: '#aaa', borderTop: '1px solid #eee', background: '#fff' }}>
           <p>모든 처리는 브라우저에서 이루어지며 서버로 데이터가 전송되지 않습니다.</p>

@@ -41,7 +41,7 @@ function LoginScreen({ onLogin }) {
       <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet" />
       <div style={{ background: '#161616', border: '1px solid #2a2a2a', borderRadius: 14, padding: 40, width: 360 }}>
         <div style={{ marginBottom: 28 }}>
-          <div style={{ width: 44, height: 44, background: '#e63946', borderRadius: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 16 }}>T</div>
+          <div style={{ width: 44, height: 44, background: '#e63946', borderRadius: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 800, marginBottom: 16, color: '#fff' }}>T</div>
           <h1 style={{ fontSize: 24, fontWeight: 800, color: '#f0f0f0' }}>Admin</h1>
           <p style={{ color: '#666', fontSize: 14, marginTop: 4 }}>Text-Down 관리자 패널</p>
         </div>
@@ -68,7 +68,6 @@ export default function Admin() {
   const [blogError, setBlogError] = useState('')
   const [editingPost, setEditingPost] = useState(null)
   const [blogForm, setBlogForm] = useState({ slug: '', title_ko: '', title_en: '', content_ko: '', content_en: '', description_ko: '', description_en: '', tags: '', published: true })
-  const [currentPw, setCurrentPw] = useState('')
   const [newPw, setNewPw] = useState('')
   const [newPwConfirm, setNewPwConfirm] = useState('')
   const [pwMsg, setPwMsg] = useState(null)
@@ -79,7 +78,7 @@ export default function Admin() {
       const res = await fetch('/api/settings/get')
       if (!res.ok) return
       const data = await res.json()
-      setAdsOn(data.adsOn)
+      setAdsOn(data.adsOn ?? true)
     } catch {} finally { setLoading(false) }
   }, [])
 
@@ -150,7 +149,7 @@ export default function Admin() {
       const res = await fetch('/api/settings/password', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken }, body: JSON.stringify({ newPassword: newPw }) })
       const data = await res.json()
       if (!res.ok) { setPwMsg({ type: 'error', text: data.error || '변경 실패' }) }
-      else { setCurrentPw(''); setNewPw(''); setNewPwConfirm(''); setPwMsg({ type: 'success', text: '✅ 비밀번호가 변경되었습니다!' }) }
+      else { setNewPw(''); setNewPwConfirm(''); setPwMsg({ type: 'success', text: '✅ 비밀번호가 변경되었습니다!' }) }
       setTimeout(() => setPwMsg(null), 4000)
     } catch { setPwMsg({ type: 'error', text: '서버 오류. 다시 시도해주세요.' }) }
     finally { setPwLoading(false) }
@@ -178,7 +177,6 @@ export default function Admin() {
 
         <div style={S.wrap}>
 
-          {/* 사이트 설정 */}
           <div style={S.card}>
             <h2 style={S.cardTitle}>⚙️ 사이트 설정</h2>
             <div style={{ marginBottom: 28 }}>
@@ -193,7 +191,6 @@ export default function Admin() {
             <button onClick={handleSave} style={{ ...S.btn(saved ? '#2d7a2d' : '#e63946'), transition: 'background 0.3s' }}>{saved ? '✅ 저장 완료!' : '설정 저장'}</button>
           </div>
 
-          {/* 블로그 글 관리 */}
           <div style={S.card}>
             <h2 style={{ ...S.cardTitle, justifyContent: 'space-between' }}>
               <span>✍️ 블로그 글 관리</span>
@@ -232,7 +229,7 @@ export default function Admin() {
                   </div>
                   <div>
                     <label style={{ color: '#888', fontSize: 12, display: 'block', marginBottom: 4 }}>요약설명 (English)</label>
-                    <input value={blogForm.description_en} onChange={e => setBlogForm(p => ({ ...p, description_en: e.target.value }))} placeholder="Learn how to count characters fast" style={S.input} />
+                    <input value={blogForm.description_en} onChange={e => setBlogForm(p => ({ ...p, description_en: e.target.value }))} placeholder="Learn how to count characters" style={S.input} />
                   </div>
                 </div>
                 <div style={{ marginBottom: 12 }}>
@@ -241,7 +238,7 @@ export default function Admin() {
                 </div>
                 <div style={{ marginBottom: 16 }}>
                   <label style={{ color: '#888', fontSize: 12, display: 'block', marginBottom: 4 }}>본문 (English)</label>
-                  <textarea value={blogForm.content_en} onChange={e => setBlogForm(p => ({ ...p, content_en: e.target.value }))} placeholder={'<h2>What is character count?</h2>\n<p>Character count is...</p>'} style={{ ...S.input, height: 220, resize: 'vertical', fontFamily: 'monospace', fontSize: 13 }} />
+                  <textarea value={blogForm.content_en} onChange={e => setBlogForm(p => ({ ...p, content_en: e.target.value }))} placeholder={'<h2>What is character count?</h2>\n<p>A character is...</p>'} style={{ ...S.input, height: 220, resize: 'vertical', fontFamily: 'monospace', fontSize: 13 }} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                   <Toggle value={blogForm.published} onChange={v => setBlogForm(p => ({ ...p, published: v }))} />
@@ -279,7 +276,6 @@ export default function Admin() {
             )}
           </div>
 
-          {/* 비밀번호 변경 */}
           <div style={S.card}>
             <h2 style={S.cardTitle}>🔒 비밀번호 변경</h2>
             <p style={{ color: '#666', fontSize: 14, marginBottom: 20 }}>변경된 비밀번호는 <strong style={{ color: '#aaa' }}>Supabase에 SHA-256 해시 저장</strong>되어 모든 기기에서 영구 적용됩니다.</p>
