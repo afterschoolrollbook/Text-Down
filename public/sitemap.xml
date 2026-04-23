@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- 메인 페이지 -->
   <url>
-    <loc>https://www.text-down.com/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <loc>https://text-down.com/</loc>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- 블로그 목록 -->
   <url>
-    <loc>https://www.text-down.com/blog</loc>
-    <lastmod>2026-04-13</lastmod>
+    <loc>https://text-down.com/blog</loc>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- FAQ -->
   <url>
-    <loc>https://www.text-down.com/faq</loc>
-    <lastmod>2026-04-13</lastmod>
+    <loc>https://text-down.com/faq</loc>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- 개인정보처리방침 -->
   <url>
-    <loc>https://www.text-down.com/privacy</loc>
-    <lastmod>2026-04-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://text-down.com/privacy</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
+
+  <!-- 이용약관 -->
   <url>
-    <loc>https://www.text-down.com/terms</loc>
-    <lastmod>2026-04-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://text-down.com/terms</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
+
 </urlset>
